@@ -137,6 +137,7 @@ const textoPontos = new Label({
   pos: vec(600, 500)
 })
 
+
 const objetoTexto = new Actor({
   x: game.drawWidth - 80,
   y: game.drawHeight - 15
@@ -190,6 +191,10 @@ let interseccao = event.contact.mtv.normalize()
 })
 
 bolinha.on("collisionend", () => {
+  if(pontos == 15){
+    alert("Você conseguiu!!")
+    window.location.reload()
+  }
   colidindo = false
 })
 
