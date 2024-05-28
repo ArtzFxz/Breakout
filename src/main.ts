@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Color, Engine, Font, Text, vec } from "excalibur"
+import { Actor, CollisionType, Color, Engine, Font, FontUnit, Label, Text, vec } from "excalibur"
 
 // 1 - Criar uma instancia de Engine, que representa o jogo
 const game = new Engine({
@@ -41,7 +41,7 @@ bolinha.body.collisionType = CollisionType.Passive
 
 
 // 5 - Criar movimentação da bolinha
-const velocidadeBolinha = vec(300, 300)
+const velocidadeBolinha = vec(500, 500)
 
 // Após 1 segundo (1000 ms), define a velocidade da bolinha em x = 100 e y = 100
 setTimeout(() => {
@@ -73,6 +73,10 @@ bolinha.on("postupdate", () => {
 
 // Insere bolinha no game
 game.add(bolinha)
+
+
+const som_HIT = new Audio()
+som_HIT.src = './efeitos/hiy.wav';
 
 
 // 7 - Criar os blocos
@@ -122,9 +126,15 @@ listaBlocos.forEach( bloco => {
 
 let pontos = 0
 
-const textoPontos = new Text({
-  text: "Hello World", 
-  font: new Font({ size: 20})
+const textoPontos = new Label({
+  text: pontos.toString(), 
+  font: new Font({
+    size: 40,
+    color: Color.White,
+    strokeColor: Color.Black,
+    unit: FontUnit.Px
+  }),
+  pos: vec(600, 500)
 })
 
 const objetoTexto = new Actor({
@@ -132,9 +142,7 @@ const objetoTexto = new Actor({
   y: game.drawHeight - 15
 })
 
-objetoTexto.graphics.use(textoPontos)
-
-game.add(objetoTexto)
+game.add(textoPontos)
 
 let colidindo: boolean = false
 
@@ -145,6 +153,14 @@ bolinha.on("collisionstart", (event) => {
   
   if (listaBlocos.includes(event.other)) {
     event.other.kill()
+
+    pontos++
+
+    textoPontos.text = pontos.toString()
+
+    som_HIT.play();
+
+    console.log(pontos);
 
   }
 
