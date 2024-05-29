@@ -20,6 +20,19 @@ const barra = new Actor({
 // CollisionType.Fixed = significa que ele não irá se "mexer" quando colidir
 barra.body.collisionType = CollisionType.Fixed
 
+let coresBolinha = [
+  Color.Black,
+  Color.Chartreuse,
+  Color.Azure,
+  Color.Magenta,
+  Color.Rose,
+  Color.Viridian,
+  Color.Yellow,
+  Color.Red
+]
+
+let numeroCores = coresBolinha.length
+
 // Insere o Actor barra - player, no game
 game.add(barra)
 
@@ -159,6 +172,8 @@ bolinha.on("collisionstart", (event) => {
 
     pontos++
 
+    bolinha.color = coresBolinha[ Math.trunc( Math.random() * numeroCores) ]
+
     textoPontos.text = pontos.toString()
 
     som_HIT.play();
@@ -208,4 +223,4 @@ bolinha.on("exitviewport", () => {
 })
 
 // Inicia o game
-game.start(loader)
+await game.start(loader)
