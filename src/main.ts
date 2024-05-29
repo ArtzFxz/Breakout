@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Color, Engine, Font, FontUnit, Label, Text, vec } from "excalibur"
+import { Actor, CollisionType, Color, Engine, Font, FontUnit, Label, Loader, Sound, Text, vec } from "excalibur"
 
 // 1 - Criar uma instancia de Engine, que representa o jogo
 const game = new Engine({
@@ -78,6 +78,8 @@ game.add(bolinha)
 const som_HIT = new Audio()
 som_HIT.src = './efeitos/hiy.wav';
 
+const die = new Sound('./efeitos/die.wav')
+const loader = new Loader([die])
 
 // 7 - Criar os blocos
 // Configurações de tamanho e espaçamento dos blocos
@@ -199,9 +201,11 @@ bolinha.on("collisionend", () => {
 })
 
 bolinha.on("exitviewport", () => {
+
+  die.play()
   alert("X Morreu X")
   window.location.reload()
 })
 
 // Inicia o game
-game.start()
+game.start(loader)
